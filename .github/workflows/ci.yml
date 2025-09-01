@@ -36,7 +36,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Build with Gradle
-        run: ./gradlew --no-daemon clean build shadowJar
+        run: ./gradlew --no-daemon --java-home "$JAVA_HOME" clean build shadowJar
 
       - name: Derive image name (lowercase)
         id: vars
