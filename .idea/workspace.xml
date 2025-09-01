@@ -4,29 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="878c70e4-bfbb-4892-ae16-43c61139fe5a" name="Changes" comment="Updated the CI yaml file">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/StreamingJob.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/deserializer/LabResultDeserializer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/dto/Header.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/dto/LabResult.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/dto/Observation.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/dto/Patient.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/sink/JdbcSink.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/util/DateTimeUtil.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/util/Gender.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/util/Hl7Parser.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/util/MessageType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/jar/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/shadowJar/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-    </list>
+    <list default="true" id="878c70e4-bfbb-4892-ae16-43c61139fe5a" name="Changes" comment="Updated the CI yaml file" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -104,6 +82,7 @@
     "Gradle.zm-scpro-disa-results-pipeline [clean].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "junie.onboarding.icon.badge.shown": "true",
@@ -216,7 +195,7 @@
       <option name="presentableId" value="Default" />
       <updated>1756728743523</updated>
       <workItem from="1756728744750" duration="36000" />
-      <workItem from="1756728802432" duration="7090000" />
+      <workItem from="1756728802432" duration="7475000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -250,7 +229,15 @@
       <option name="project" value="LOCAL" />
       <updated>1756734230229</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Updated the CI yaml file">
+      <option name="closed" value="true" />
+      <created>1756736127135</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1756736127135</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
