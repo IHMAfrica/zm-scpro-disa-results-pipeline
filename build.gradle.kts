@@ -16,6 +16,12 @@ repositories {
     mavenCentral()
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
 extra["flinkVersion"] = "1.20.2"
 extra["log4jVersion"] = "2.25.1"
 
