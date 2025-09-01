@@ -1,0 +1,76 @@
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkSessionJob
+metadata:
+  name: zm-scpro-disa-results-pipeline
+  namespace: flink-jobs
+spec:
+  deploymentName: session-cluster
+  job:
+    jarURI: local:///opt/flink/usrlib/app.jar
+    entryClass: zm.gov.moh.hie.scp.StreamingJob
+    parallelism: 2
+    upgradeMode: stateless
+    # arguments:
+    #   - "--kafka.bootstrap.servers=<your-broker>"
+    #   - "--kafka.topic=<your-topic>"
+  podTemplate:
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      labels:
+        app: scpro-disa-results-pipeline
+    spec:
+      containers:
+        - name: flink-main-container
+          image: ghcr.io/IHMAfrica/zm-scpro-disa-results-pipeline:latest
+          imagePullPolicy: IfNotPresent
+          # Example: inject configuration via environment variables (recommended for secrets)
+          # env:
+          #   - name: KAFKA_BOOTSTRAP_SERVERS
+          #     value: "broker1:9092,broker2:9092"
+          #   - name: KAFKA_TOPIC
+          #     value: "lab-results"
+          #   - name: KAFKA_GROUP_ID
+          #     value: "flink-es-consumer"
+          #   - name: KAFKA_SECURITY_PROTOCOL
+          #     value: "SASL_PLAINTEXT"
+          #   - name: KAFKA_SASL_MECHANISM
+          #     value: "SCRAM-SHA-256"
+          #   - name: KAFKA_SASL_USERNAME
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: kafka-sasl
+          #         key: username
+          #   - name: KAFKA_SASL_PASSWORD
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: kafka-sasl
+          #         key: password
+          #   - name: JDBC_URL
+          #     value: "jdbc:postgresql://postgres:5432/hie_manager"
+          #   - name: JDBC_USER
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: jdbc-secret
+          #         key: user
+          #   - name: JDBC_PASSWORD
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: jdbc-secret
+          #         key: password
+          # Or pass as job arguments (non-secret values):
+          # args:
+          #   - "--kafka.topic=lab-results"
+          #   - "--kafka.group.id=consumer-x"
+          #   - "--jdbc.url=jdbc:postgresql://postgres:5432/hie_manager"
+          #   - "--jdbc.user=postgres"
+          #   - "--jdbc.password=$(JDBC_PASSWORD)"
+          #   - name: JAVA_TOOL_OPTIONS
+          #     value: "-Dlog4j2.formatMsgNoLookups=true"
+          # resources:
+          #   requests:
+          #     cpu: "500m"
+          #     memory: "1Gi"
+          #   limits:
+          #     cpu: "1"
+          #     memory: "2Gi"

@@ -14,38 +14,27 @@ import zm.gov.moh.hie.scp.sink.JdbcSink;
 public class StreamingJob {
     private static final Logger LOG = LoggerFactory.getLogger(StreamingJob.class);
 
-    // Configuration constants
-    private static final String KAFKA_BOOTSTRAP_SERVERS = "154.120.216.119:9093,102.23.120.153:9093,102.23.123.251:9093";
-    private static final String KAFKA_TOPIC = "lab-results";
-    private static final String KAFKA_GROUP_ID = "flink-es-consumer-6";
-    // Kafka security configuration
-    private static final String KAFKA_SECURITY_PROTOCOL = "SASL_PLAINTEXT";
-    private static final String KAFKA_SASL_MECHANISM = "SCRAM-SHA-256";
-    private static final String KAFKA_SASL_USERNAME = "admin";
-    private static final String KAFKA_SASL_PASSWORD = "075F80FED7C6";
-    // JDBC/PostgreSQL configuration
-    private static final String JDBC_URL = "jdbc:postgresql://localhost:5432/hie_manager";
-    private static final String JDBC_USER = "postgres";
-    private static final String JDBC_PASSWORD = "postgres";
-
     public static void main(String[] args) throws Exception {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
+        // Load configuration from env and CLI args
+        final Config cfg = Config.fromEnvAndArgs(args);
+
         KafkaSource<LabResult> source = KafkaSource.<LabResult>builder()
-                .setBootstrapServers(KAFKA_BOOTSTRAP_SERVERS)
-                .setTopics(KAFKA_TOPIC)
-                .setGroupId(KAFKA_GROUP_ID)
+                .setBootstrapServers(cfg.kafkaBootstrapServers)
+                .setTopics(cfg.kafkaTopic)
+                .setGroupId(cfg.kafkaGroupId)
                 .setProperty("enable.auto.commit", "true")
                 .setProperty("auto.commit.interval.ms", "2000")
                 .setStartingOffsets(OffsetsInitializer.earliest())
                 .setValueOnlyDeserializer(new LabResultDeserializer())
-                // Configure security settings for SASL_PLAINTEXT with SCRAM-SHA-256
-                .setProperty("security.protocol", KAFKA_SECURITY_PROTOCOL)
-                .setProperty("sasl.mechanism", KAFKA_SASL_MECHANISM)
+                // Configure security settings
+                .setProperty("security.protocol", cfg.kafkaSecurityProtocol)
+                .setProperty("sasl.mechanism", cfg.kafkaSaslMechanism)
                 .setProperty("sasl.jaas.config",
                         "org.apache.kafka.common.security.scram.ScramLoginModule required " +
-                                "username=\"" + KAFKA_SASL_USERNAME + "\" " +
-                                "password=\"" + KAFKA_SASL_PASSWORD + "\";")
+                                "username=\"" + cfg.kafkaSaslUsername + "\" " +
+                                "password=\"" + cfg.kafkaSaslPassword + "\";")
                 .build();
 
         // Create a DataStream from a Kafka source
@@ -67,12 +56,10 @@ public class StreamingJob {
                 })
                 .name("Filter Null Values").disableChaining();
 
-        final var jdbcSink = JdbcSink.getLabResultSinkFunction(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
-
+        final var jdbcSink = JdbcSink.getLabResultSinkFunction(cfg.jdbcUrl, cfg.jdbcUser, cfg.jdbcPassword);
         filteredStream.addSink(jdbcSink).name("Postgres JDBC -> Lab Meta Sink");
 
-        final var jdbcDataSink = JdbcSink.getLabResultDataSinkFunction(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
-
+        final var jdbcDataSink = JdbcSink.getLabResultDataSinkFunction(cfg.jdbcUrl, cfg.jdbcUser, cfg.jdbcPassword);
         filteredStream.addSink(jdbcDataSink).name("Postgres JDBC -> Lab Data Sink");
 
         // Execute the pipeline
