@@ -19,11 +19,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '21'
+          java-version: '17'
 
       - name: Cache Gradle
         uses: actions/cache@v4
@@ -36,7 +36,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Build with Gradle
-        run: ./gradlew --no-daemon --java-home "$JAVA_HOME" clean build shadowJar
+        run: ./gradlew --no-daemon clean build shadowJar
 
       - name: Derive image name (lowercase)
         id: vars

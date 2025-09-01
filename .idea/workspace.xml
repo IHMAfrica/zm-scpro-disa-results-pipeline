@@ -4,8 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="878c70e4-bfbb-4892-ae16-43c61139fe5a" name="Changes" comment="Upgrade the Gradle to 8.8">
+    <list default="true" id="878c70e4-bfbb-4892-ae16-43c61139fe5a" name="Changes" comment="Updated the CI yaml file">
       <change beforePath="$PROJECT_DIR$/.github/workflows/ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/StreamingJob.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/deserializer/LabResultDeserializer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/dto/Header.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/dto/LabResult.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/dto/Observation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/dto/Patient.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/sink/JdbcSink.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/util/DateTimeUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/util/Gender.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/util/Hl7Parser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/zm/gov/moh/hie/scp/util/MessageType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/jar/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/shadowJar/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +83,7 @@
     &quot;accountId&quot;: &quot;11e38f11-d17b-43a1-a928-77590e60fd81&quot;
   }
 }</component>
-  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$" gradleHome="$USER_HOME$/.gradle/wrapper/dists/gradle-8.8-bin/dl7vupf4psengwqhwktix4v1/gradle-8.8" javaHome="$USER_HOME$/Library/Java/JavaVirtualMachines/temurin-17.0.16/Contents/Home" gradleVersion="8.8" />
+  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$" gradleHome="$USER_HOME$/.gradle/wrapper/dists/gradle-8.4-bin/1w5dpkrfk8irigvoxmyhowfim/gradle-8.4" javaHome="$USER_HOME$/Library/Java/JavaVirtualMachines/temurin-17.0.16/Contents/Home" gradleVersion="8.4" />
   <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
   <component name="KubernetesApiProvider"><![CDATA[{
   "isMigrated": true
@@ -78,6 +98,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Docker.Dockerfile.executor": "Run",
     "Gradle.Build zm-scpro-disa-results-pipeline.executor": "Run",
     "Gradle.zm-scpro-disa-results-pipeline [build].executor": "Run",
     "Gradle.zm-scpro-disa-results-pipeline [clean].executor": "Run",
@@ -156,10 +177,26 @@
       <option name="filePath" />
       <method v="2" />
     </configuration>
+    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="imageTag" value="latest" />
+          <option name="buildOnly" value="true" />
+          <option name="containerName" value="flink-scp-disa-results-pipeline" />
+          <option name="sourceFilePath" value="Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.zm-scpro-disa-results-pipeline [build]" />
         <item itemvalue="Gradle.zm-scpro-disa-results-pipeline [clean]" />
+        <item itemvalue="Docker.Dockerfile" />
       </list>
     </recent_temporary>
   </component>
@@ -179,7 +216,7 @@
       <option name="presentableId" value="Default" />
       <updated>1756728743523</updated>
       <workItem from="1756728744750" duration="36000" />
-      <workItem from="1756728802432" duration="5328000" />
+      <workItem from="1756728802432" duration="7090000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -205,7 +242,15 @@
       <option name="project" value="LOCAL" />
       <updated>1756733893374</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Updated the CI yaml file">
+      <option name="closed" value="true" />
+      <created>1756734230229</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1756734230229</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -215,6 +260,7 @@
     <MESSAGE value="initial commit" />
     <MESSAGE value="Implemented a CI pipeline" />
     <MESSAGE value="Upgrade the Gradle to 8.8" />
-    <option name="LAST_COMMIT_MESSAGE" value="Upgrade the Gradle to 8.8" />
+    <MESSAGE value="Updated the CI yaml file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated the CI yaml file" />
   </component>
 </project>

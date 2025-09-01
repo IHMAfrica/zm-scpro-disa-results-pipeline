@@ -10,7 +10,7 @@ An Apache Flink streaming job that consumes lab result messages from Kafka and w
 
 ## Build
 Requirements:
-- JDK 21
+- JDK 17
 - Gradle Wrapper included
 
 Build fat jar:
