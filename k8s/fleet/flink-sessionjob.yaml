@@ -10,6 +10,7 @@ spec:
     entryClass: zm.gov.moh.hie.scp.StreamingJob
     parallelism: 2
     upgradeMode: stateless
+    state: running
     # arguments:
     #   - "--kafka.bootstrap.servers=<your-broker>"
     #   - "--kafka.topic=<your-topic>"

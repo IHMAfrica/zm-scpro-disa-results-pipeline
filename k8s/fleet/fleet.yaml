@@ -1,5 +1,3 @@
 defaultNamespace: flink-jobs
-helm:
-  releaseName: zm-scpro-disa-results-pipeline
-  values:
-    image: ghcr.io/IHMAfrica/zm-scpro-disa-results-pipeline:latest
+labels:
+  app: flink-scpro-disa-result-session-job

@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="878c70e4-bfbb-4892-ae16-43c61139fe5a" name="Changes" comment="Update the CI pipeline to build a git release">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
+    <list default="true" id="878c70e4-bfbb-4892-ae16-43c61139fe5a" name="Changes" comment="Updated the flink-sessionjob.yaml to pull the git release build">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/fleet/flink-sessionjob.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/fleet/flink-sessionjob.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -282,7 +282,23 @@
       <option name="project" value="LOCAL" />
       <updated>1756808759428</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Try constant release tag">
+      <option name="closed" value="true" />
+      <created>1756812531918</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1756812531918</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Updated the flink-sessionjob.yaml to pull the git release build">
+      <option name="closed" value="true" />
+      <created>1756812928317</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1756812928317</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -298,6 +314,8 @@
     <MESSAGE value="Add gradlew" />
     <MESSAGE value="Updated external config loader" />
     <MESSAGE value="Update the CI pipeline to build a git release" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update the CI pipeline to build a git release" />
+    <MESSAGE value="Try constant release tag" />
+    <MESSAGE value="Updated the flink-sessionjob.yaml to pull the git release build" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated the flink-sessionjob.yaml to pull the git release build" />
   </component>
 </project>
