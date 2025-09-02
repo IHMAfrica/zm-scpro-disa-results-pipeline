@@ -5,7 +5,7 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-env:
+# env:
   # No container registry is needed; we publish the JAR as a GitHub Release asset.
 
 jobs:
