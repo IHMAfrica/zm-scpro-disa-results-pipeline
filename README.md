@@ -1,12 +1,12 @@
 # SCPro DISA Results Pipeline
 
-An Apache Flink streaming job that consumes lab result messages from Kafka and writes parsed results to PostgreSQL. The job is packaged as a fat jar and designed to run on a Flink session cluster managed by the Flink Kubernetes Operator. CI builds and publishes a container to GHCR, and a Rancher Fleet-compatible FlinkSessionJob manifest is included.
+An Apache Flink streaming job that consumes lab result messages from Kafka and writes parsed results to PostgreSQL. The job is packaged as a fat jar and designed to run on a Flink session cluster managed by the Flink Kubernetes Operator. CI builds the fat jar and publishes it as a standalone OCI artifact to GHCR. The FlinkSessionJob uses an initContainer that pulls the jar image from GHCR and copies the jar into Flink's usrlib directory at runtime.
 
 ## Features
 - Kafka -> Flink -> PostgreSQL streaming pipeline
 - Externalized configuration via environment variables and/or command-line arguments
-- Containerized with Docker; deployable via Flink Kubernetes Operator (FlinkSessionJob)
-- GitHub Actions pipeline builds and pushes image to GHCR
+- Deployable via Flink Kubernetes Operator (FlinkSessionJob)
+- GitHub Actions pipeline builds the JAR and publishes it as a GHCR OCI artifact; the runtime uses the official Flink image
 
 ## Build
 Requirements:
@@ -48,20 +48,8 @@ Example CLI args:
 - --kafka.topic=lab-results
 - --jdbc.url=jdbc:postgresql://db:5432/hie_manager
 
-## Docker
-Build image locally:
-- docker build -t zm-scpro-disa-results-pipeline:dev .
-
-Run container (example):
-- docker run --rm \
-  -e KAFKA_BOOTSTRAP_SERVERS=broker:9092 \
-  -e KAFKA_TOPIC=lab-results \
-  -e JDBC_URL=jdbc:postgresql://postgres:5432/hie_manager \
-  -e JDBC_USER=postgres \
-  -e JDBC_PASSWORD=postgres \
-  zm-scpro-disa-results-pipeline:dev
-
-Note: In Kubernetes, the Flink Operator handles job submission; you usually won't run the container directly.
+## Runtime Image
+This project no longer ships an application-specific runtime image. The Flink pods use the official Flink image. The job JAR is fetched directly by Flink from a GitHub Release asset via HTTPS using the job.jarURI field. No podTemplate or initContainers are used.
 
 ## Kubernetes Deployment (FlinkSessionJob)
 This repo provides k8s/fleet/flink-sessionjob.yaml with a FlinkSessionJob targeting an existing session cluster named session-cluster.
@@ -69,33 +57,7 @@ This repo provides k8s/fleet/flink-sessionjob.yaml with a FlinkSessionJob target
 Important:
 - Ensure a FlinkDeployment session cluster named session-cluster exists in your namespace.
 - Provide connector jars (Kafka/JDBC) compatible with Flink 1.20 in the cluster lib/ if not bundled.
-- Inject configuration via:
-  - Environment variables on the pod (via PodTemplate), or
-  - Job arguments in the FlinkSessionJob spec.
-
-Example additions (pod env) in k8s/fleet/flink-sessionjob.yaml:
-  podTemplate:
-    spec:
-      containers:
-        - name: flink-main-container
-          env:
-            - name: KAFKA_BOOTSTRAP_SERVERS
-              value: "broker1:9092,broker2:9092"
-            - name: JDBC_URL
-              valueFrom:
-                secretKeyRef:
-                  name: jdbc-secret
-                  key: url
-            - name: JDBC_USER
-              valueFrom:
-                secretKeyRef:
-                  name: jdbc-secret
-                  key: user
-            - name: JDBC_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: jdbc-secret
-                  key: password
+- Inject non-secret configuration via job arguments in the FlinkSessionJob spec. Secrets should be provided via cluster-level configuration or externalized mechanisms; FlinkSessionJob here does not use a podTemplate.
 
 Example job arguments in FlinkSessionJob:
   job:
@@ -104,7 +66,7 @@ Example job arguments in FlinkSessionJob:
       - "--kafka.group.id=consumer-x"
 
 ## CI/CD
-The GitHub Actions workflow .github/workflows/ci.yml builds the project, creates a container image, and pushes to GHCR with :latest and :sha tags. It also emits a resolved manifest artifact with the fully-qualified image reference for Fleet use.
+The GitHub Actions workflow .github/workflows/ci.yml builds the fat JAR and publishes it as a GitHub Release asset. The workflow also outputs a resolved manifest artifact where the FlinkSessionJob's jarURI is substituted with the release asset HTTPS URL. Note: If the repository is private, the Flink Operator must be configured to access the URL (e.g., via credentials or by making the release public).
 
 ## Security Notes
 - Provide secrets (Kafka SASL password, JDBC password) via environment variables or Kubernetes secrets.

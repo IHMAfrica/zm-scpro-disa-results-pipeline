@@ -4,22 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="878c70e4-bfbb-4892-ae16-43c61139fe5a" name="Changes" comment="Add gradlew">
-      <change afterPath="$PROJECT_DIR$/src/main/java/zm/gov/moh/hie/scp/StreamingJob.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/zm/gov/moh/hie/scp/deserializer/LabResultDeserializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/zm/gov/moh/hie/scp/dto/Header.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/zm/gov/moh/hie/scp/dto/LabResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/zm/gov/moh/hie/scp/dto/Observation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/zm/gov/moh/hie/scp/dto/Patient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/zm/gov/moh/hie/scp/sink/JdbcSink.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/zm/gov/moh/hie/scp/util/DateTimeUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/zm/gov/moh/hie/scp/util/Gender.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/zm/gov/moh/hie/scp/util/Hl7Parser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/zm/gov/moh/hie/scp/util/MessageType.java" afterDir="false" />
+    <list default="true" id="878c70e4-bfbb-4892-ae16-43c61139fe5a" name="Changes" comment="Updated external config loader">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s/fleet/flink-sessionjob.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/fleet/flink-sessionjob.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/zm/gov/moh/hie/scp/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/zm/gov/moh/hie/scp/Config.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +106,7 @@
     "stardust.markdown.MarkdownSplitEditorSuppressor:keyList": []
   }
 }]]></component>
-  <component name="RunManager" selected="Gradle.zm-scpro-disa-results-pipeline [clean]">
+  <component name="RunManager" selected="Gradle.zm-scpro-disa-results-pipeline [build]">
     <configuration name="zm-scpro-disa-results-pipeline [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -191,9 +181,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Docker.Dockerfile" />
-        <item itemvalue="Gradle.zm-scpro-disa-results-pipeline [clean]" />
         <item itemvalue="Gradle.zm-scpro-disa-results-pipeline [build]" />
+        <item itemvalue="Gradle.zm-scpro-disa-results-pipeline [clean]" />
+        <item itemvalue="Docker.Dockerfile" />
       </list>
     </recent_temporary>
   </component>
@@ -279,7 +269,15 @@
       <option name="project" value="LOCAL" />
       <updated>1756747765342</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Updated external config loader">
+      <option name="closed" value="true" />
+      <created>1756798122569</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1756798122569</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -293,6 +291,7 @@
     <MESSAGE value="Reverted to initial implementation" />
     <MESSAGE value="Changed target java to v17" />
     <MESSAGE value="Add gradlew" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add gradlew" />
+    <MESSAGE value="Updated external config loader" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated external config loader" />
   </component>
 </project>
