@@ -41,13 +41,13 @@ jobs:
         id: vars
         run: |
           echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
-          echo "VERSION_TAG=${GITHUB_SHA::12}" >> $GITHUB_OUTPUT
+          echo "VERSION_TAG=latest" >> $GITHUB_OUTPUT
           echo "JAR_PATH=$(echo build/libs/*-all.jar)" >> $GITHUB_OUTPUT
 
       - name: Create Git tag (lightweight) for this build
         id: tag
         run: |
-          echo "TAG=${GITHUB_SHA::12}" >> $GITHUB_OUTPUT
+          echo "TAG=latest" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
