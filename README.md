@@ -1,4 +1,4 @@
-# ZM SCPro DISA Results Pipeline
+# SCPro DISA Results Pipeline
 
 An Apache Flink streaming job that consumes lab result messages from Kafka and writes parsed results to PostgreSQL. The job is packaged as a fat jar and designed to run on a Flink session cluster managed by the Flink Kubernetes Operator. CI builds and publishes a container to GHCR, and a Rancher Fleet-compatible FlinkSessionJob manifest is included.
 

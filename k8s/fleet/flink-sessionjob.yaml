@@ -1,7 +1,7 @@
 apiVersion: flink.apache.org/v1beta1
 kind: FlinkSessionJob
 metadata:
-  name: zm-scpro-disa-results-pipeline
+  name: scpro-disa-results-pipeline
   namespace: flink-jobs
 spec:
   deploymentName: session-cluster
