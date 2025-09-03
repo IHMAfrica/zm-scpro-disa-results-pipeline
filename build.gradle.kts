@@ -69,6 +69,7 @@ dependencies {
 // Build a fat jar called *-all.jar that includes app necessary libs (not Flink APIs)
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     archiveClassifier.set("all")
+    archiveFileName.set("zm-scpro-disa-results-pipeline-all.jar")
     mergeServiceFiles()
     minimize {
         // Keep Jackson fully

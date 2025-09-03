@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="878c70e4-bfbb-4892-ae16-43c61139fe5a" name="Changes" comment="Updated the flink-sessionjob.yaml to pull the git release build">
+    <list default="true" id="878c70e4-bfbb-4892-ae16-43c61139fe5a" name="Changes" comment="updated the fleet and session job yaml files">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s/fleet/flink-sessionjob.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/fleet/flink-sessionjob.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,6 +52,11 @@
     </system>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -87,7 +94,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "dev-fix-build-process",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/terence/Documents/GitHub/zm-scpro-disa-results-pipeline",
@@ -103,7 +110,7 @@
     "stardust.markdown.MarkdownSplitEditorSuppressor:keyList": []
   }
 }]]></component>
-  <component name="RunManager" selected="Gradle.zm-scpro-disa-results-pipeline [build]">
+  <component name="RunManager" selected="Gradle.zm-scpro-disa-results-pipeline [clean]">
     <configuration name="zm-scpro-disa-results-pipeline [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -178,8 +185,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.zm-scpro-disa-results-pipeline [build]" />
         <item itemvalue="Gradle.zm-scpro-disa-results-pipeline [clean]" />
+        <item itemvalue="Gradle.zm-scpro-disa-results-pipeline [build]" />
         <item itemvalue="Docker.Dockerfile" />
       </list>
     </recent_temporary>
@@ -298,7 +305,15 @@
       <option name="project" value="LOCAL" />
       <updated>1756812928317</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="updated the fleet and session job yaml files">
+      <option name="closed" value="true" />
+      <created>1756814145065</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1756814145065</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -316,6 +331,7 @@
     <MESSAGE value="Update the CI pipeline to build a git release" />
     <MESSAGE value="Try constant release tag" />
     <MESSAGE value="Updated the flink-sessionjob.yaml to pull the git release build" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated the flink-sessionjob.yaml to pull the git release build" />
+    <MESSAGE value="updated the fleet and session job yaml files" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated the fleet and session job yaml files" />
   </component>
 </project>
