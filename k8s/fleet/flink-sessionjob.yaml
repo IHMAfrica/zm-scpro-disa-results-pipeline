@@ -6,7 +6,8 @@ metadata:
 spec:
   deploymentName: session-cluster
   job:
-    jarURI: https://github.com/IHMAfrica/zm-scpro-disa-results-pipeline/releases/download/latest/zm-scpro-disa-results-pipeline-all.jar
+    # jarURI: https://github.com/IHMAfrica/zm-scpro-disa-results-pipeline/releases/download/latest/zm-scpro-disa-results-pipeline-all.jar
+    jarURI: local:///opt/flink/zm-scpro-disa-results-pipeline-all.jar
     entryClass: zm.gov.moh.hie.scp.StreamingJob
     parallelism: 2
     upgradeMode: stateless
