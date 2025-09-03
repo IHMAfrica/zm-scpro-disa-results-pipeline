@@ -69,7 +69,7 @@ public class StreamingJob {
         filteredStream.addSink(jdbcDataSink).name("Postgres JDBC -> Lab Data Sink");
 
         // Execute the pipeline
-        env.execute("Kafka to Postgres Pipeline");
+        env.execute("Kafka to Postgres SC / Disa Lab Results Pipeline");
     }
 
 }
