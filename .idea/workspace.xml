@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="878c70e4-bfbb-4892-ae16-43c61139fe5a" name="Changes" comment="updated the fleet and session job yaml files">
+    <list default="true" id="878c70e4-bfbb-4892-ae16-43c61139fe5a" name="Changes" comment="Updated source JarURI">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s/fleet/flink-sessionjob.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/fleet/flink-sessionjob.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -85,6 +86,7 @@
   "keyToString": {
     "Docker.Dockerfile.executor": "Run",
     "Gradle.Build zm-scpro-disa-results-pipeline.executor": "Run",
+    "Gradle.zm-scpro-disa-results-pipeline [:zm.gov.moh.hie.scp.StreamingJob.main()].executor": "Debug",
     "Gradle.zm-scpro-disa-results-pipeline [build].executor": "Run",
     "Gradle.zm-scpro-disa-results-pipeline [clean].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
@@ -107,7 +109,20 @@
     "stardust.markdown.MarkdownSplitEditorSuppressor:keyList": []
   }
 }]]></component>
-  <component name="RunManager" selected="Gradle.zm-scpro-disa-results-pipeline [build]">
+  <component name="RunManager" selected="Application.StreamingJob">
+    <configuration name="StreamingJob" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="zm.gov.moh.hie.scp.StreamingJob" />
+      <module name="zm-scpro-disa-results-pipeline.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="zm.gov.moh.hie.scp.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="zm-scpro-disa-results-pipeline [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -182,11 +197,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.zm-scpro-disa-results-pipeline [clean]" />
+        <item itemvalue="Application.StreamingJob" />
         <item itemvalue="Gradle.zm-scpro-disa-results-pipeline [build]" />
+        <item itemvalue="Gradle.zm-scpro-disa-results-pipeline [clean]" />
         <item itemvalue="Docker.Dockerfile" />
         <item itemvalue="Gradle.zm-scpro-disa-results-pipeline [clean]" />
-        <item itemvalue="Gradle.zm-scpro-disa-results-pipeline [build]" />
       </list>
     </recent_temporary>
   </component>
@@ -328,7 +343,15 @@
       <option name="project" value="LOCAL" />
       <updated>1756911234201</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Updated source JarURI">
+      <option name="closed" value="true" />
+      <created>1756912790336</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1756912790336</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -348,6 +371,7 @@
     <MESSAGE value="Updated the flink-sessionjob.yaml to pull the git release build" />
     <MESSAGE value="updated the fleet and session job yaml files" />
     <MESSAGE value="Fixed build to generated a fat jar" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed build to generated a fat jar" />
+    <MESSAGE value="Updated source JarURI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated source JarURI" />
   </component>
 </project>

@@ -6,12 +6,11 @@ metadata:
 spec:
   deploymentName: session-cluster
   job:
-    # jarURI: https://github.com/IHMAfrica/zm-scpro-disa-results-pipeline/releases/download/latest/zm-scpro-disa-results-pipeline-all.jar
-    jarURI: local:///opt/flink/zm-scpro-disa-results-pipeline-all.jar
+    jarURI: https://github.com/IHMAfrica/zm-scpro-disa-results-pipeline/releases/download/latest/zm-scpro-disa-results-pipeline-all.jar
     entryClass: zm.gov.moh.hie.scp.StreamingJob
     parallelism: 2
     upgradeMode: stateless
     state: running
-    # arguments:
-    #   - "--kafka.bootstrap.servers=<your-broker>"
-    #   - "--kafka.topic=<your-topic>"
+    args:
+      - "--jdbc.url=jdbc:postgresql://172.16.20.9:35616/hie_manager"
+      - "--kafka.consumer.group.id=scpro-disa-results-pipeline"
