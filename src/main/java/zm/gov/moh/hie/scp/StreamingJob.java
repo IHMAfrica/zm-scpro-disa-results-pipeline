@@ -28,6 +28,8 @@ public class StreamingJob {
                 .setProperty("auto.commit.interval.ms", "2000")
                 .setProperty("max.poll.interval.ms", "10000")
                 .setProperty("max.poll.records", "50")
+                .setProperty("request.timeout.ms", "60000")
+                .setProperty("delivery.timeout.ms", "120000")
                 .setStartingOffsets(OffsetsInitializer.earliest())
                 .setValueOnlyDeserializer(new LabResultDeserializer())
                 // Configure security settings for SASL_PLAINTEXT with SCRAM-SHA-256
