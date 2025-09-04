@@ -13,4 +13,4 @@ spec:
     state: running
     args:
       - "--jdbc.url=jdbc:postgresql://172.16.20.9:35616/hie_manager"
-      - "--kafka.group.id=scpro-disa-results-pipeline-1"
+      - "--kafka.group.id=scpro-disa-results-pipeline"

@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="878c70e4-bfbb-4892-ae16-43c61139fe5a" name="Changes" comment="Updated to session job configs">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="878c70e4-bfbb-4892-ae16-43c61139fe5a" name="Changes" comment="Updated kafka poll rate and max record count">
       <change beforePath="$PROJECT_DIR$/k8s/fleet/flink-sessionjob.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/fleet/flink-sessionjob.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/zm/gov/moh/hie/scp/StreamingJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/zm/gov/moh/hie/scp/StreamingJob.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -368,7 +366,15 @@
       <option name="project" value="LOCAL" />
       <updated>1756982482829</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Updated kafka poll rate and max record count">
+      <option name="closed" value="true" />
+      <created>1756983447999</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1756983447999</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -390,6 +396,7 @@
     <MESSAGE value="Fixed build to generated a fat jar" />
     <MESSAGE value="Updated source JarURI" />
     <MESSAGE value="Updated to session job configs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated to session job configs" />
+    <MESSAGE value="Updated kafka poll rate and max record count" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated kafka poll rate and max record count" />
   </component>
 </project>
