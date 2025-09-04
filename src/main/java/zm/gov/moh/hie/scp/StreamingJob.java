@@ -26,6 +26,8 @@ public class StreamingJob {
                 .setGroupId(cfg.kafkaGroupId)
                 .setProperty("enable.auto.commit", "true")
                 .setProperty("auto.commit.interval.ms", "2000")
+                .setProperty("max.poll.interval.ms", "10000")
+                .setProperty("max.poll.records", "50")
                 .setStartingOffsets(OffsetsInitializer.earliest())
                 .setValueOnlyDeserializer(new LabResultDeserializer())
                 // Configure security settings for SASL_PLAINTEXT with SCRAM-SHA-256
