@@ -33,7 +33,6 @@ public class StreamingJob {
                 .setProperty("default.api.timeout.ms", "2540000")
                 .setStartingOffsets(OffsetsInitializer.earliest())
                 .setValueOnlyDeserializer(new LabResultDeserializer())
-                // Configure security settings for SASL_PLAINTEXT with SCRAM-SHA-256
                 .setProperty("security.protocol", cfg.kafkaSecurityProtocol)
                 .setProperty("sasl.mechanism", cfg.kafkaSaslMechanism)
                 .setProperty("sasl.jaas.config",
