@@ -1,9 +1,8 @@
 name: CI Build and Publish JAR Release
 
 on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+  pull_request:
+    types: [opened, reopened, synchronize]
 
 # env:
   # No container registry is needed; we publish the JAR as a GitHub Release asset.
