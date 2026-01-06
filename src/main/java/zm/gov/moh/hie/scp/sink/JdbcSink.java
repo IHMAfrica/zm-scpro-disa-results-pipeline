@@ -21,7 +21,7 @@ public class JdbcSink {
 
     public static SinkFunction<LabResult> getLabResultSinkFunction(String jdbcUrl, String jdbcUser, String jdbcPassword) {
         // Configure a PostgreSQL JDBC sink for lab_results table
-        final String upsertSql = "INSERT INTO crt.lab_result (hmis_code, order_id, result_date, result_time, result, message_ref_id) " +
+        final String upsertSql = "INSERT INTO crt.lab_result (mfl_code, order_id, result_date, result_time, result, message_ref_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?) " +
                 "ON CONFLICT (message_ref_id) DO UPDATE SET " +
                 "result = EXCLUDED.result, " +
@@ -29,7 +29,7 @@ public class JdbcSink {
                 "result_time = EXCLUDED.result_time";
 
         JdbcStatementBuilder<LabResult> stmtBuilder = (PreparedStatement ps, LabResult element) -> {
-            // 1. hmis_code (receiverId)
+            // 1. mfl_code (receiverId)
             String facilityId = element.getHeader() != null ? element.getHeader().getReceiverId() : null;
             if (facilityId == null) facilityId = "";
             ps.setString(1, facilityId);

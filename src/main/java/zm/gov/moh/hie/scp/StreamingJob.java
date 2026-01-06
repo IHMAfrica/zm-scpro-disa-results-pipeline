@@ -64,13 +64,31 @@ public class StreamingJob {
                 })
                 .name("Filter Null Values").disableChaining();
 
+        // Filter out messages with invalid MFL codes (must be exactly 4 digits)
+        DataStream<LabResult> mflFilteredStream = filteredStream
+                .filter(result -> {
+                    String facilityCode = result.getHeader() != null ? result.getHeader().getReceiverId() : null;
+                    if (facilityCode == null || facilityCode.isEmpty()) {
+                        LOG.warn("Filtered out message with missing facility code. MessageID: {}",
+                                result.getHeader() != null ? result.getHeader().getMessageId() : "unknown");
+                        return false;
+                    }
+                    if (!facilityCode.matches("^\\d{4}$")) {
+                        LOG.warn("Filtered out message with invalid MFL code (expected 4 digits): '{}'. MessageID: {}",
+                                facilityCode, result.getHeader().getMessageId());
+                        return false;
+                    }
+                    return true;
+                })
+                .name("Filter Invalid MFL Codes").disableChaining();
+
         final var jdbcSink = JdbcSink.getLabResultSinkFunction(cfg.jdbcUrl, cfg.jdbcUser, cfg.jdbcPassword);
 
-        filteredStream.addSink(jdbcSink).name("Postgres JDBC -> Lab Meta Sink");
+        mflFilteredStream.addSink(jdbcSink).name("Postgres JDBC -> Lab Meta Sink");
 
         final var jdbcDataSink = JdbcSink.getLabResultDataSinkFunction(cfg.jdbcUrl, cfg.jdbcUser, cfg.jdbcPassword);
 
-        filteredStream.addSink(jdbcDataSink).name("Postgres JDBC -> Lab Data Sink");
+        mflFilteredStream.addSink(jdbcDataSink).name("Postgres JDBC -> Lab Data Sink");
 
         // Execute the pipeline
         env.execute("Kafka to Postgres SC / Disa Lab Results Pipeline");

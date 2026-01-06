@@ -12,7 +12,7 @@ public class Header implements Serializable {
     private String version;
     private String timestamp;
     private String senderId;
-    private String receiverId;
+    private String receiverId;  // MFL code (4-digit facility identifier)
     private String messageId;
     private String ackType;
 
