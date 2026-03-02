@@ -87,8 +87,7 @@ public class StreamingJob {
                 .name("Filter Invalid MFL Codes").disableChaining();
 
         // Filter out messages with null/empty order_id ONLY
-        // Keep all observations including "NO LOINC" - they come from source data
-        DataStream<LabResult> validStream = mflFilteredStream
+        DataStream<LabResult> orderFilteredStream = mflFilteredStream
                 .filter(result -> {
                     String orderId = result.getOrderId();
                     if (orderId == null || orderId.isEmpty()) {
@@ -99,6 +98,28 @@ public class StreamingJob {
                     return true;
                 })
                 .name("Filter Null Order ID").disableChaining();
+
+        // Remove observations with null loinc_code from each message
+        DataStream<LabResult> loincFilteredStream = orderFilteredStream
+                .map(result -> {
+                    if (result.getObservations() != null) {
+                        result.getObservations().removeIf(obs -> obs.getLoincCode() == null);
+                    }
+                    return result;
+                })
+                .name("Filter Null LOINC Observations");
+
+        // Drop messages where all observations were removed (none had valid LOINC codes)
+        DataStream<LabResult> validStream = loincFilteredStream
+                .filter(result -> {
+                    if (result.getObservations() == null || result.getObservations().isEmpty()) {
+                        LOG.warn("Filtered out message with no valid LOINC observations. MessageID: {}",
+                                result.getHeader() != null ? result.getHeader().getMessageId() : "unknown");
+                        return false;
+                    }
+                    return true;
+                })
+                .name("Filter Empty Observations").disableChaining();
 
         final var jdbcSink = JdbcSink.getLabResultSinkFunction(cfg.jdbcUrl, cfg.jdbcUser, cfg.jdbcPassword);
 
