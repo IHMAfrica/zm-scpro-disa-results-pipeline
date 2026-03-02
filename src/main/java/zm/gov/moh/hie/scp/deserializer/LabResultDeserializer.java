@@ -63,7 +63,7 @@ public class LabResultDeserializer implements DeserializationSchema<LabResult> {
                     LocalDateTime dateTime = LocalDateTime.parse(o.getOBR().getObservationDateTime().getTime().getValue() + "00", DateTimeUtil.DATETIME_DISA_FORMATTER);
                     LocalDateTime specimenReceivedTime = LocalDateTime.parse(o.getOBR().getSpecimenReceivedDateTime().getTime().getValue() + "00", DateTimeUtil.DATETIME_DISA_FORMATTER);
 
-                    // Process only the last OBX segment in this OBR (which contains the actual result)
+                    // Process all OBX segments in this OBR, collecting all valid results
                     if (!o.getOBSERVATIONAll().isEmpty()) {
                         try {
 
@@ -94,7 +94,7 @@ public class LabResultDeserializer implements DeserializationSchema<LabResult> {
                                 String loincCode = null;
                                 try {
                                     var obx3 = observation.getOBX().getObservationIdentifier();
-                                    if (obx3 != null) {
+                                    if (obx3 != null && !obx3.encode().trim().isEmpty()) {
                                         // Get OBX-3 component 1 (the LOINC code)
                                         var comp1 = obx3.getComponent(0);
                                         String code = (comp1 != null) ? comp1.encode().trim() : null;
@@ -117,7 +117,7 @@ public class LabResultDeserializer implements DeserializationSchema<LabResult> {
                                         }
                                     }
                                 } catch (Exception e) {
-                                    // Extraction failed, use default (null)
+                                    // Extraction from OBX-3 failed, loincCode remains null
                                 }
 
                                 observations.add(

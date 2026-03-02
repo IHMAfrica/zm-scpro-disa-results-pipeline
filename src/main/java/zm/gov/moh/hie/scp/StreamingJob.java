@@ -15,15 +15,8 @@ public class StreamingJob {
     private static final Logger LOG = LoggerFactory.getLogger(StreamingJob.class);
 
     public static void main(String[] args) throws Exception {
-        System.out.println("[DEBUG] StreamingJob started");
-        System.out.println("[DEBUG] Args: " + java.util.Arrays.toString(args));
-
-        // Load effective configuration (CLI > env > defaults)
         final Config cfg = Config.fromEnvAndArgs(args);
-        System.out.println("[DEBUG] Config loaded: kafka=" + cfg.kafkaBootstrapServers + ", topic=" + cfg.kafkaTopic + ", group=" + cfg.kafkaGroupId);
-
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        System.out.println("[DEBUG] Execution environment created");
 
         var sourceBuilder = KafkaSource.<LabResult>builder()
                 .setBootstrapServers(cfg.kafkaBootstrapServers)
@@ -110,11 +103,7 @@ public class StreamingJob {
 
         validStream.addSink(jdbcDataSink).name("Postgres JDBC -> Lab Data Sink");
 
-        // Execute the pipeline
-        System.out.println("[DEBUG] About to execute pipeline...");
-        System.out.flush();
         env.execute("Kafka to Postgres SC / Disa Lab Results Pipeline");
-        System.out.println("[DEBUG] Pipeline execution completed");
     }
 
 }

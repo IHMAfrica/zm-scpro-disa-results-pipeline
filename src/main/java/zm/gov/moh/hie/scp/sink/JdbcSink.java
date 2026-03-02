@@ -23,11 +23,10 @@ public class JdbcSink {
         // Insert one row per observation (not just the first one)
         final String upsertSql = "INSERT INTO crt.lab_result (mfl_code, order_id, result_date, result_time, result, loinc_code, message_ref_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?) " +
-                "ON CONFLICT (message_ref_id) DO UPDATE SET " +
+                "ON CONFLICT (message_ref_id, loinc_code) DO UPDATE SET " +
                 "result = EXCLUDED.result, " +
                 "result_date = EXCLUDED.result_date, " +
-                "result_time = EXCLUDED.result_time, " +
-                "loinc_code = EXCLUDED.loinc_code";
+                "result_time = EXCLUDED.result_time";
 
         JdbcStatementBuilder<LabResult> stmtBuilder = (PreparedStatement ps, LabResult element) -> {
             List<Observation> observations = element.getObservations();
