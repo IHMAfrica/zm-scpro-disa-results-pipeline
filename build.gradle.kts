@@ -34,36 +34,39 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 
-    implementation("org.apache.httpcomponents:httpclient:4.5.14")
+    // Flink classes for testing
+    testImplementation("org.apache.flink:flink-streaming-java:${property("flinkVersion")}")
+    testImplementation("org.apache.flink:flink-connector-base:${property("flinkVersion")}")
+
     implementation("ca.uhn.hapi:hapi-structures-v25:2.5.1")
 
 
-    // Flink APIs – include for local testing
-    implementation("org.apache.flink:flink-streaming-java:${property("flinkVersion")}")
-    implementation("org.apache.flink:flink-connector-base:${property("flinkVersion")}")
-    implementation("org.apache.flink:flink-table-api-java-bridge:${property("flinkVersion")}")
-    implementation("org.apache.flink:flink-json:${property("flinkVersion")}")
+    // Flink APIs (provided by cluster) – mark as compileOnly to avoid bundling into the fat jar
+    compileOnly("org.apache.flink:flink-streaming-java:${property("flinkVersion")}")
+    compileOnly("org.apache.flink:flink-connector-base:${property("flinkVersion")}")
+    compileOnly("org.apache.flink:flink-table-api-java-bridge:${property("flinkVersion")}")
+    compileOnly("org.apache.flink:flink-json:${property("flinkVersion")}")
 
-    // External connectors
-    implementation("org.apache.flink:flink-connector-kafka:3.3.0-1.20")
-    implementation("org.apache.flink:flink-connector-jdbc:3.3.0-1.20")
+    // External connectors – provided by cluster lib/ directory
+    compileOnly("org.apache.flink:flink-connector-kafka:3.3.0-1.20")
+    compileOnly("org.apache.flink:flink-connector-jdbc:3.3.0-1.20")
 
     // Jackson – include so TypeReference is available at runtime
     implementation("com.fasterxml.jackson.core:jackson-core:2.19.2")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.19.2")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.19.2")
 
-    // PostgreSQL driver (needed at runtime)
-    implementation("org.postgresql:postgresql:42.7.4")
+    // PostgreSQL driver (provided by cluster lib/ directory)
+    compileOnly("org.postgresql:postgresql:42.7.4")
 
     // Logging
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:${property("log4jVersion")}")
     implementation("org.apache.logging.log4j:log4j-api:${property("log4jVersion")}")
     implementation("org.apache.logging.log4j:log4j-core:${property("log4jVersion")}")
 
-    // Needed for local development
-    implementation("org.apache.flink:flink-clients:${property("flinkVersion")}")
-    implementation("org.apache.flink:flink-java:${property("flinkVersion")}")
+    // Needed only for local development
+    runtimeOnly("org.apache.flink:flink-clients:${property("flinkVersion")}")
+    runtimeOnly("org.apache.flink:flink-java:${property("flinkVersion")}")
 }
 
 // Build a fat jar called *-all.jar that includes app necessary libs (not Flink APIs)
@@ -71,14 +74,11 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     archiveClassifier.set("all")
     archiveFileName.set("zm-scpro-disa-results-pipeline-all.jar")
     mergeServiceFiles()
-    // Disable minimization for local testing to keep all Flink service providers
-    // minimize {
-    //     exclude(dependency("com.fasterxml.jackson.core:.*"))
-    //     exclude(dependency("com.fasterxml.jackson.datatype:.*"))
-    //     exclude(dependency("org.apache.flink:flink-connector-.*"))
-    // }
-    // Include Flink for local testing (comment out for Kubernetes deployment)
-    // exclude("org/apache/flink/**")
+    minimize {
+        // Keep Jackson fully
+        exclude(dependency("com.fasterxml.jackson.core:.*"))
+        exclude(dependency("com.fasterxml.jackson.datatype:.*"))
+    }
 }
 
 

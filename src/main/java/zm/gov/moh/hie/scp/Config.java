@@ -56,10 +56,10 @@ public class Config {
     public static Config fromEnvAndArgs(String[] args) {
         Map<String, String> params = new HashMap<>();
 
-        // 1) defaults (current hard-coded ones kept as defaults, but can be overridden)
+        // 1) defaults
         params.put("kafka.bootstrap.servers", "154.120.216.119:9093,102.23.120.153:9093,102.23.123.251:9093");
         params.put("kafka.topic", "lab-results");
-        params.put("kafka.group.id", "flink-scpro-disa-results-consumer-v2");
+        params.put("kafka.group.id", "flink-scpro-disa-results-consumer");
         params.put("kafka.security.protocol", "SASL_PLAINTEXT");
         params.put("kafka.sasl.mechanism", "SCRAM-SHA-256");
         params.put("kafka.sasl.username", "admin");
