@@ -64,72 +64,75 @@ public class LabResultDeserializer implements DeserializationSchema<LabResult> {
                     LocalDateTime specimenReceivedTime = LocalDateTime.parse(o.getOBR().getSpecimenReceivedDateTime().getTime().getValue() + "00", DateTimeUtil.DATETIME_DISA_FORMATTER);
 
                     // Process only the last OBX segment in this OBR (which contains the actual result)
-                    if (o.getOBSERVATIONAll().size() > 0) {
+                    if (!o.getOBSERVATIONAll().isEmpty()) {
                         try {
-                            ORU_R01_OBSERVATION observation = o.getOBSERVATIONAll().get(o.getOBSERVATIONAll().size() - 1);
 
-                            String resultType = observation.getOBX().getValueType().getValue();
-                            if (resultType == null || resultType.isBlank()) continue; // Skip empty value types
+                            for (int k = 0; k < o.getOBSERVATIONAll().size(); k++) {
+                                ORU_R01_OBSERVATION observation = o.getOBSERVATIONAll().get(k);
 
-                            String orderResult;
-                            String unit = null;
+                                String resultType = observation.getOBX().getValueType().getValue();
+                                if (resultType == null || resultType.isBlank()) continue; // Skip empty value types
 
-                            // Extract result based on value type
-                            if (resultType.equals("CE")) {
-                                orderResult = ((CE) observation.getOBX().getObservationValue(0).getData()).getIdentifier().getValue();
-                            } else {
-                                orderResult = observation.getOBX().getObservationValue(0).getData().toString();
-                                if (observation.getOBX().getUnits() != null) {
-                                    unit = observation.getOBX().getUnits().getIdentifier().getValue();
+                                String orderResult;
+                                String unit = null;
+
+                                // Extract result based on valuetype
+                                if (resultType.equals("CE")) {
+                                    orderResult = ((CE) observation.getOBX().getObservationValue(0).getData()).getIdentifier().getValue();
+                                } else {
+                                    orderResult = observation.getOBX().getObservationValue(0).getData().toString();
+                                    if (observation.getOBX().getUnits() != null) {
+                                        unit = observation.getOBX().getUnits().getIdentifier().getValue();
+                                    }
                                 }
-                            }
 
-                            if (orderResult == null || orderResult.isBlank()) continue; // Skip if no result value
+                                if (orderResult == null || orderResult.isBlank()) continue; // Skip if no result value
 
-                            String resultStatus = observation.getOBX().getObservationResultStatus().getValue();
+                                String resultStatus = observation.getOBX().getObservationResultStatus().getValue();
 
-                            // Extract LOINC code from OBX-3 (Observation Identifier)
-                            String loincCode = null;
-                            try {
-                                var obx3 = observation.getOBX().getObservationIdentifier();
-                                if (obx3 != null) {
-                                    // Get OBX-3 component 1 (the LOINC code)
-                                    var comp1 = obx3.getComponent(0);
-                                    String code = (comp1 != null) ? comp1.encode().trim() : null;
+                                // Extract LOINC code from OBX-3 (Observation Identifier)
+                                String loincCode = null;
+                                try {
+                                    var obx3 = observation.getOBX().getObservationIdentifier();
+                                    if (obx3 != null) {
+                                        // Get OBX-3 component 1 (the LOINC code)
+                                        var comp1 = obx3.getComponent(0);
+                                        String code = (comp1 != null) ? comp1.encode().trim() : null;
 
-                                    // Get OBX-3 component 3 (the coding system - should be "LN" for LOINC)
-                                    var comp3 = obx3.getComponent(2);
-                                    String system = (comp3 != null) ? comp3.encode().trim() : null;
+                                        // Get OBX-3 component 3 (the coding system - should be "LN" for LOINC)
+                                        var comp3 = obx3.getComponent(2);
+                                        String system = (comp3 != null) ? comp3.encode().trim() : null;
 
-                                    // Use the code only if it's LOINC-coded and valid
-                                    // System should be "LN" or contain "LN"
-                                    if (code != null && !code.isBlank()) {
-                                        if (system != null && (system.equals("LN") || system.contains("LN"))) {
-                                            loincCode = code;
-                                        } else if (system == null || system.isBlank()) {
-                                            // If system is empty/null, assume it's LOINC if code looks valid (numeric-based)
-                                            if (code.matches("^\\d+.*")) {
+                                        // Use the code only if it's LOINC-coded and valid
+                                        // System should be "LN" or contain "LN"
+                                        if (code != null && !code.isBlank()) {
+                                            if (system != null && (system.equals("LN") || system.contains("LN"))) {
                                                 loincCode = code;
+                                            } else if (system == null || system.isBlank()) {
+                                                // If system is empty/null, assume it's LOINC if code looks valid (numeric-based)
+                                                if (code.matches("^\\d+.*")) {
+                                                    loincCode = code;
+                                                }
                                             }
                                         }
                                     }
+                                } catch (Exception e) {
+                                    // Extraction failed, use default (null)
                                 }
-                            } catch (Exception e) {
-                                // Extraction failed, use default (null)
-                            }
 
-                            observations.add(
-                                    new Observation(
-                                            testId,
-                                            dateTime.format(DateTimeUtil.TIMESTAMP_FORMATTER),
-                                            specimenReceivedTime.format(DateTimeUtil.TIMESTAMP_FORMATTER),
-                                            resultType,
-                                            orderResult,
-                                            unit,
-                                            resultStatus,
-                                            loincCode
-                                    )
-                            );
+                                observations.add(
+                                        new Observation(
+                                                testId,
+                                                dateTime.format(DateTimeUtil.TIMESTAMP_FORMATTER),
+                                                specimenReceivedTime.format(DateTimeUtil.TIMESTAMP_FORMATTER),
+                                                resultType,
+                                                orderResult,
+                                                unit,
+                                                resultStatus,
+                                                loincCode
+                                        )
+                                );
+                            }
                         } catch (HL7Exception e) {
                             // Unable to process OBX
                         }
