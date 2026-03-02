@@ -7,8 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Centralized configuration with support for environment variables and command-line arguments.
- * Precedence: CLI args (--key=value) > Environment variables > Built-in defaults.
+ * Centralized configuration with support for environment variables and
+ * command-line arguments.
+ * Precedence: CLI args (--key=value) > Environment variables > Built-in
+ * defaults.
  */
 public class Config {
     private static final Logger LOG = LoggerFactory.getLogger(Config.class);
@@ -35,8 +37,7 @@ public class Config {
             String kafkaSaslPassword,
             String jdbcUrl,
             String jdbcUser,
-            String jdbcPassword
-    ) {
+            String jdbcPassword) {
         this.kafkaBootstrapServers = kafkaBootstrapServers;
         this.kafkaTopic = kafkaTopic;
         this.kafkaGroupId = kafkaGroupId;
@@ -59,7 +60,7 @@ public class Config {
         // 1) defaults
         params.put("kafka.bootstrap.servers", "154.120.216.119:9093,102.23.120.153:9093,102.23.123.251:9093");
         params.put("kafka.topic", "lab-results");
-        params.put("kafka.group.id", "flink-scpro-disa-results-consumer-v2");
+        params.put("kafka.group.id", "flink-scpro-disa-results-consumer-v5");
         params.put("kafka.security.protocol", "SASL_PLAINTEXT");
         params.put("kafka.sasl.mechanism", "SCRAM-SHA-256");
         params.put("kafka.sasl.username", "admin");
@@ -102,8 +103,7 @@ public class Config {
                 params.get("kafka.sasl.password"),
                 params.get("jdbc.url"),
                 params.get("jdbc.user"),
-                params.get("jdbc.password")
-        );
+                params.get("jdbc.password"));
 
         logEffective(cfg);
         return cfg;
@@ -127,5 +127,7 @@ public class Config {
         }
     }
 
-    private static String redact(String v) { return v == null || v.isBlank() ? "<empty>" : "***"; }
+    private static String redact(String v) {
+        return v == null || v.isBlank() ? "<empty>" : "***";
+    }
 }
