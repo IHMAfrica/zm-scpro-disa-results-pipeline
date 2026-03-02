@@ -24,6 +24,11 @@ public class StreamingJob {
                 .setGroupId(cfg.kafkaGroupId)
                 .setProperty("enable.auto.commit", "true")
                 .setProperty("auto.commit.interval.ms", "2000")
+                .setProperty("max.poll.interval.ms", "10000")
+                .setProperty("max.poll.records", "50")
+                .setProperty("request.timeout.ms", "2540000")
+                .setProperty("delivery.timeout.ms", "120000")
+                .setProperty("default.api.timeout.ms", "2540000")
                 .setStartingOffsets(OffsetsInitializer.earliest())
                 .setValueOnlyDeserializer(new LabResultDeserializer())
                 .setProperty("security.protocol", cfg.kafkaSecurityProtocol);
