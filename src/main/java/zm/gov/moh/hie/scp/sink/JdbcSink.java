@@ -20,51 +20,62 @@ public class JdbcSink {
     private static final Logger LOG = LoggerFactory.getLogger(JdbcSink.class);
 
     public static SinkFunction<LabResult> getLabResultSinkFunction(String jdbcUrl, String jdbcUser, String jdbcPassword) {
-        // Configure a PostgreSQL JDBC sink for lab_results table
-        final String upsertSql = "INSERT INTO crt.lab_result (mfl_code, order_id, result_date, result_time, result, message_ref_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?) " +
-                "ON CONFLICT (message_ref_id) DO UPDATE SET " +
+        // Insert one row per observation (not just the first one)
+        final String upsertSql = "INSERT INTO crt.lab_result (mfl_code, order_id, result_date, result_time, result, loinc_code, message_ref_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?) " +
+                "ON CONFLICT (message_ref_id, loinc_code) DO UPDATE SET " +
                 "result = EXCLUDED.result, " +
                 "result_date = EXCLUDED.result_date, " +
                 "result_time = EXCLUDED.result_time";
 
         JdbcStatementBuilder<LabResult> stmtBuilder = (PreparedStatement ps, LabResult element) -> {
-            // 1. mfl_code (receiverId)
-            String facilityId = element.getHeader() != null ? element.getHeader().getReceiverId() : null;
-            if (facilityId == null) facilityId = "";
-            ps.setString(1, facilityId);
-
-            // 2. order_id (nullable)
-            String orderId = element.getOrderId();
-            if (orderId == null || orderId.isEmpty()) {
-                ps.setNull(2, java.sql.Types.VARCHAR);
-            } else {
-                ps.setString(2, orderId);
+            List<Observation> observations = element.getObservations();
+            if (observations == null || observations.isEmpty()) {
+                return; // Skip if no observations
             }
 
-            // 3. result_date (parse header timestamp "yyyy-MM-dd")
+            // Get common fields (same for all observations in this message)
+            String facilityId = element.getHeader() != null ? element.getHeader().getReceiverId() : "";
+            String orderId = element.getOrderId();
             LocalDateTime timestamp = LocalDateTime.parse(element.getHeader().getTimestamp(), DateTimeUtil.TIMESTAMP_FORMATTER);
             Timestamp ts = Timestamp.valueOf(timestamp);
-            ps.setDate(3, new java.sql.Date(ts.getTime()));
+            String messageRefId = element.getHeader() != null ? element.getHeader().getMessageId() : "unknown-" + System.currentTimeMillis();
 
-            // 4. result_time (parse header timestamp "HH:mm:ss")
-            ps.setTime(4, new java.sql.Time(ts.getTime()));
+            // Insert ONE ROW PER OBSERVATION
+            for (Observation obs : observations) {
+        
+                ps.setString(1, facilityId);
 
-            // 5. result (only set if a result has one result value)
-            String result = (element.getObservations() != null && element.getObservations().size() == 1) ? element.getObservations().get(0).getResult() : null;
-            if (result == null) {
-                ps.setNull(5, java.sql.Types.VARCHAR);
-            } else {
-                ps.setString(5, result);
+                if (orderId == null || orderId.isEmpty()) {
+                    ps.setNull(2, java.sql.Types.VARCHAR);
+                } else {
+                    ps.setString(2, orderId);
+                }
+
+                ps.setDate(3, new java.sql.Date(ts.getTime()));
+                ps.setTime(4, new java.sql.Time(ts.getTime()));
+
+                // Result from this observation
+                String result = obs.getResult();
+                if (result == null) {
+                    ps.setNull(5, java.sql.Types.VARCHAR);
+                } else {
+                    ps.setString(5, result);
+                }
+
+                // LOINC code from this observation
+                String loincCode = obs.getLoincCode();
+                if (loincCode == null) {
+                    ps.setNull(6, java.sql.Types.VARCHAR);
+                } else {
+                    ps.setString(6, loincCode);
+                }
+
+                // Use same message_ref_id for all rows from same message
+                ps.setString(7, messageRefId);
+
+                ps.addBatch();
             }
-
-            // 6. message_ref_id
-            String messageRefId = element.getHeader() != null ? element.getHeader().getMessageId() : null;
-            if (messageRefId == null || messageRefId.isEmpty()) {
-                // If no id, skip by setting to a generated-like fallback (but ideally id should always exist)
-                messageRefId = "unknown-" + System.currentTimeMillis();
-            }
-            ps.setString(6, messageRefId);
         };
 
         final var jdbcSink = org.apache.flink.connector.jdbc.JdbcSink.sink(

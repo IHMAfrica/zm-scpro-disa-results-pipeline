@@ -15,31 +15,30 @@ public class StreamingJob {
     private static final Logger LOG = LoggerFactory.getLogger(StreamingJob.class);
 
     public static void main(String[] args) throws Exception {
-        // Load effective configuration (CLI > env > defaults)
         final Config cfg = Config.fromEnvAndArgs(args);
-
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        KafkaSource<LabResult> source = KafkaSource.<LabResult>builder()
+        var sourceBuilder = KafkaSource.<LabResult>builder()
                 .setBootstrapServers(cfg.kafkaBootstrapServers)
                 .setTopics(cfg.kafkaTopic)
                 .setGroupId(cfg.kafkaGroupId)
                 .setProperty("enable.auto.commit", "true")
                 .setProperty("auto.commit.interval.ms", "2000")
-                .setProperty("max.poll.interval.ms", "10000")
-                .setProperty("max.poll.records", "50")
-                .setProperty("request.timeout.ms", "2540000")
-                .setProperty("delivery.timeout.ms", "120000")
-                .setProperty("default.api.timeout.ms", "2540000")
                 .setStartingOffsets(OffsetsInitializer.earliest())
                 .setValueOnlyDeserializer(new LabResultDeserializer())
-                .setProperty("security.protocol", cfg.kafkaSecurityProtocol)
-                .setProperty("sasl.mechanism", cfg.kafkaSaslMechanism)
-                .setProperty("sasl.jaas.config",
-                        "org.apache.kafka.common.security.scram.ScramLoginModule required " +
-                                "username=\"" + cfg.kafkaSaslUsername + "\" " +
-                                "password=\"" + cfg.kafkaSaslPassword + "\";")
-                .build();
+                .setProperty("security.protocol", cfg.kafkaSecurityProtocol);
+
+        // Only set SASL properties if using SASL security protocol
+        if (cfg.kafkaSecurityProtocol != null && cfg.kafkaSecurityProtocol.contains("SASL")) {
+            sourceBuilder
+                    .setProperty("sasl.mechanism", cfg.kafkaSaslMechanism)
+                    .setProperty("sasl.jaas.config",
+                            "org.apache.kafka.common.security.scram.ScramLoginModule required " +
+                                    "username=\"" + cfg.kafkaSaslUsername + "\" " +
+                                    "password=\"" + cfg.kafkaSaslPassword + "\";");
+        }
+
+        KafkaSource<LabResult> source = sourceBuilder.build();
 
         // Create a DataStream from a Kafka source
         DataStream<LabResult> kafkaStream = env.fromSource(
@@ -82,15 +81,28 @@ public class StreamingJob {
                 })
                 .name("Filter Invalid MFL Codes").disableChaining();
 
+        // Filter out messages with null/empty order_id ONLY
+        // Keep all observations including "NO LOINC" - they come from source data
+        DataStream<LabResult> validStream = mflFilteredStream
+                .filter(result -> {
+                    String orderId = result.getOrderId();
+                    if (orderId == null || orderId.isEmpty()) {
+                        LOG.warn("Filtered out message with null/empty order_id. MessageID: {}",
+                                result.getHeader() != null ? result.getHeader().getMessageId() : "unknown");
+                        return false;
+                    }
+                    return true;
+                })
+                .name("Filter Null Order ID").disableChaining();
+
         final var jdbcSink = JdbcSink.getLabResultSinkFunction(cfg.jdbcUrl, cfg.jdbcUser, cfg.jdbcPassword);
 
-        mflFilteredStream.addSink(jdbcSink).name("Postgres JDBC -> Lab Meta Sink");
+        validStream.addSink(jdbcSink).name("Postgres JDBC -> Lab Meta Sink");
 
         final var jdbcDataSink = JdbcSink.getLabResultDataSinkFunction(cfg.jdbcUrl, cfg.jdbcUser, cfg.jdbcPassword);
 
-        mflFilteredStream.addSink(jdbcDataSink).name("Postgres JDBC -> Lab Data Sink");
+        validStream.addSink(jdbcDataSink).name("Postgres JDBC -> Lab Data Sink");
 
-        // Execute the pipeline
         env.execute("Kafka to Postgres SC / Disa Lab Results Pipeline");
     }
 

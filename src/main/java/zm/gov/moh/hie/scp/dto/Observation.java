@@ -12,10 +12,11 @@ public class Observation implements Serializable {
     private String result;
     private String resultUnit;
     private String resultStatus;
+    private String loincCode;
 
     public Observation() {}
 
-    public Observation(String id, String timestamp, String specimenReceivedTime, String resultType, String result, String resultUnit, String resultStatus) {
+    public Observation(String id, String timestamp, String specimenReceivedTime, String resultType, String result, String resultUnit, String resultStatus, String loincCode) {
         this.id = id;
         this.timestamp = timestamp;
         this.specimenReceivedTime = specimenReceivedTime;
@@ -23,6 +24,7 @@ public class Observation implements Serializable {
         this.result = result;
         this.resultUnit = resultUnit;
         this.resultStatus = resultStatus;
+        this.loincCode = loincCode;
     }
 
     public String getId() {
@@ -67,6 +69,12 @@ public class Observation implements Serializable {
     public String getResultStatus() {
         return resultStatus;
     }
+    public String getLoincCode() {
+        return loincCode;
+    }
+    public void setLoincCode(String loincCode) {
+        this.loincCode = loincCode;
+    }
 
     @Override
     public String toString() {
@@ -78,6 +86,7 @@ public class Observation implements Serializable {
                 .append(", result='").append(result).append('\'')
                 .append(", resultUnit='").append(resultUnit).append('\'')
                 .append(", resultStatus='").append(resultStatus).append('\'')
+                .append(", loincCode='").append(loincCode).append('\'')
                 .append('}');
         return sb.toString();
     }
